@@ -41,7 +41,7 @@ int main(){
 
 			}
 			printf("The sequence number of the newly created list is: %d.\n",listcount);
-			printf("Enter key value to be inserted in the newly created list-n:");
+			printf("Enter key value to be inserted in the newly created list:");
 			scanf("%d",&elem);
 			status = insertSorted(listarray[listcount-1],elem);
 			if(status==NIL){
