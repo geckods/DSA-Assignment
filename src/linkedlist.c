@@ -1,10 +1,12 @@
-#include "linkedlist.h"
+#include <../include/linkedlist.h>
 
 int allocateObject(int key,int prev,int next){
+	//writes to the next free memory location
 	int loc = freePop();
 	if(loc==-1){
 		return NIL;
 	}
+
 
 	memory[loc]=key;
 	memory[loc+1]=next;
@@ -14,6 +16,7 @@ int allocateObject(int key,int prev,int next){
 
 
 LinkedList* createList(){
+	//allocates memory for a new linkedlist
 	LinkedList* newList = (LinkedList*)malloc(sizeof(LinkedList));	
 	newList->head=NIL;
 	newList->size=0;
@@ -83,6 +86,7 @@ int deleteElement(LinkedList* list,node_object obj){
 	}
 
 	if(prev==NIL){
+		//new list head
 		list->head = next;
 	}
 	list->size--;
@@ -94,22 +98,20 @@ int count(LinkedList* list){
 }
 
 void nicep(int a){
+	//used to make printing convenient
 	if(a==-1) printf("NIL   ");
 	else printf("%-6d",a);
 }
 
 void printList(LinkedList* list){
 	int curr = list->head;
-//	printf("[ ");
 	printf("key   next  prev\n");
 	while(curr!=NIL){
-//		printf("%-6d%-6d%-6d\n",memory[curr],memory[curr+1],memory[curr+2]);
 		nicep(memory[curr]);
 		nicep(memory[curr+1]);
 		nicep(memory[curr+2]);
 		putchar('\n');
 		curr = memory[curr+1];
 	}
-//	printf("]\n");
 }
 

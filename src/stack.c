@@ -1,9 +1,10 @@
-#include <stack.h>
+#include <../include/stack.h>
 
 int freePop(){
 
-	if (freePointer==NIL){//double the size of memory 
-		//return NIL;
+	if (freePointer==NIL){
+		//The freeStack is empty, so double the size of memory
+		//double the size of memory 
 		int j;
 		int *newmem = (int*)malloc(sizeof(int)*SIZE*2*3);
 		for(int i=0;i<SIZE;i++){
@@ -20,19 +21,16 @@ int freePop(){
 		for(int i=SIZE-1;i>=SIZE/2;i--){
 			freePush(i*3);
 		}
-
-//		return (SIZE-1)*3;
-//		freePointer
-//		return freePointer;
-		
 	}
 
+	//update freePointer and return the top of the stack
 	int curr = freePointer;
 	freePointer = memory[curr+1];
 	return curr;
 }
 
 void freePush(int loc){
+	//add to the top of the stack, and then update freePointer
 	memory[loc]=NIL;
 	memory[loc+1]=freePointer;
 	memory[loc+2]=NIL;
@@ -40,9 +38,12 @@ void freePush(int loc){
 }
 
 void initializeStack(){
+	//allocate memory
 	SIZE=10;
 	memory = (int*)malloc(SIZE*3*sizeof(int));
 	freePointer = NIL;
+
+	//put everything in the free stack
 	for(int i=SIZE-1;i>=0;i--){
 		freePush(i*3);
 	}
@@ -50,6 +51,7 @@ void initializeStack(){
 
 void displayFree(){
 	printf("Elements of free list are:\n[");
+	//traverse the free list and print memory locations (indexes)
 	int curr=freePointer;
 	while(curr!=NIL){
 		if(memory[curr+1]==NIL)
@@ -67,12 +69,13 @@ void displayFree(){
 
 
 void swap(int loc1, int loc2,int trackarr[],int n){
+	//given two memory locations, swap the nodes at those locations
+	//trackarr is used to update the headPointers of lists
 	int prev1=memory[loc1+2];
 	int next1=memory[loc1+1];
 	int prev2=memory[loc2+2];
 	int next2=memory[loc2+1];
 
-//	printf("%d %d\n",loc1,loc2);
 
 	for(int i=0;i<n;i++){
 		if (trackarr[i]==loc1) trackarr[i]=loc2;
@@ -80,6 +83,8 @@ void swap(int loc1, int loc2,int trackarr[],int n){
 	}
 	
 	/*
+	//USED FOR DEBUGGING PURPOSES
+//	printf("%d %d\n",loc1,loc2);
 	for(int i=0;i<SIZE;i++){
 		int j=i*3;
 		printf("%d :%d %d %d\n",j, memory[j],memory[j+1],memory[j+2]);
@@ -89,6 +94,7 @@ void swap(int loc1, int loc2,int trackarr[],int n){
 
 
 	if(next1 != loc2 && next2 != loc1){
+		//if the two nodes don't point to each other, swapping is fairly trivial
 
 //		if (prev1 != NIL)
 //			memory[prev1+1] = loc2;
@@ -128,6 +134,7 @@ void swap(int loc1, int loc2,int trackarr[],int n){
 		memory[loc2+2]=c;
 	}
 	else{
+		//swapping when one of the nodes points to the other
 		if(next1 == loc2){
 //			if (prev1 != NIL)
 //				memory[prev1+1] = loc2;
@@ -194,6 +201,7 @@ void swap(int loc1, int loc2,int trackarr[],int n){
 
 
 /*
+//FAILED SWAP FUNCTION
 void swap(int loc1,int loc2){
 
 	printf("%d %d\n",loc1,loc2);
@@ -227,9 +235,9 @@ void swap(int loc1,int loc2){
 		j = i*3;
 		if(j==loc1 || j==loc2) continue;
 		if(memory[j+1]==loc1) memory[j+1]=loc2;
-		if(memory[j+1]==loc2) memory[j+1]=loc1;
+		else if(memory[j+1]==loc2) memory[j+1]=loc1;
 		if(memory[j+2]==loc1) memory[j+2]=loc2;
-		if(memory[j+2]==loc2) memory[j+2]=loc1;
+		else if(memory[j+2]==loc2) memory[j+2]=loc1;
 	}
 
 	if(next1==loc2){
@@ -251,6 +259,11 @@ int defrag(int trackarr[],int n){
 	int curr=freePointer;
 	int prev,next;
 	int i=0;
+/*
+	defrag strategy is:
+	traverse the entire free list in order, while swapping with the back
+	i.e. swap the first free node with the last element in memory, swap the second with the second last, and so on
+*/
 
 	while(curr!=NIL){
 		i++;

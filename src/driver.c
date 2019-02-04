@@ -22,14 +22,17 @@ int main(){
 		switch(uin){
 		case 1:
 			listarray[listcount++] = createList();
-			if(listcount==LISTSIZE){				//need to double listarray and trackarr
+			if(listcount==LISTSIZE){				
+				//need to double listarray and trackarr
 				LISTSIZE*=2;
 
+				//doubling trackarr
 				int* newtrackarr = (int*)malloc(sizeof(int)*LISTSIZE);
 				free(trackarr);
 				trackarr=newtrackarr;
 
 				LinkedList** newlistarray = (LinkedList**)malloc(sizeof(LinkedList*)*LISTSIZE);
+				//copying to the new location
 				for(int i=0;i<listcount;i++){
 					newlistarray[i]=listarray[i];
 				}
@@ -111,12 +114,14 @@ int main(){
 			displayFree();
 			break;
 		case 8:
+			//trackarr is used to keep track of the movements of the heads of the lists, if swapped
+			//it is passed by reference to enable changing in the function
 			for(int i=0;i<listcount;i++){
 				trackarr[i]=listarray[i]->head;
 			}
 			status = defrag(trackarr,listcount);
 			if(status==NIL){
-				printf("Defragmentation unsuccessful!\n");
+				printf("FAILURE (no free nodes to defragment)\n");
 			}
 			else{
 				printf("SUCCESS\n");
@@ -126,6 +131,7 @@ int main(){
 			}
 			break;
 		case 9:
+			//USED FOR DEBUGGING PURPOSES: prints the entire memory
 			printf("FreePointer is %d.\n",freePointer);
 			printf("LISTSIZE is %d\n",LISTSIZE);
 			for(int i=0;i<SIZE;i++){
@@ -134,6 +140,7 @@ int main(){
 			}
 			break;
 		case 10:
+			//USED FOR DEBUGGING PURPOSES: tests the swap function
 			printf("SWAPTEST\n");
 			int a,b;
 			scanf("%d",&a);
