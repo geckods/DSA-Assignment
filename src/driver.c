@@ -1,4 +1,4 @@
-#include <linkedlist.h>
+#include <../include/linkedlist.h>
 
 int main(){
 
@@ -7,12 +7,14 @@ int main(){
 	int uin = NIL;
 	int listcount=0;
 	int listno;
+	int LISTSIZE = SIZE;
 	node_object elem;
 	int status;
 	int thecount;
-	LinkedList* listarray[SIZE];
+	LinkedList** listarray = (LinkedList**)malloc(sizeof(LinkedList*)*LISTSIZE);
+	int* trackarr = (int*)malloc(sizeof(int)*LISTSIZE);
+
 	printf("Welcome to the program! Written by Abhinav Ramachandran, 2017A7PS1176P on 2.1.19.");
-	int trackarr[SIZE];
 	while(uin!=0){
 
 		printf("\nSelect an option:\n1. Create a new list\n2. Insert a new element in a given list in sorted order\n3. Delete an element from a given list\n4. Count total elements excluding free list\n5. Count total elements of a list\n6. Display all lists\n7. Display free list\n8. Perform defragmentation\nPress 0 to exit\n");
@@ -20,6 +22,21 @@ int main(){
 		switch(uin){
 		case 1:
 			listarray[listcount++] = createList();
+			if(listcount==LISTSIZE){				//need to double listarray and trackarr
+				LISTSIZE*=2;
+
+				int* newtrackarr = (int*)malloc(sizeof(int)*LISTSIZE);
+				free(trackarr);
+				trackarr=newtrackarr;
+
+				LinkedList** newlistarray = (LinkedList**)malloc(sizeof(LinkedList*)*LISTSIZE);
+				for(int i=0;i<listcount;i++){
+					newlistarray[i]=listarray[i];
+				}
+				free(listarray);
+				listarray = newlistarray;
+
+			}
 			printf("The sequence number of the newly created list is: %d.\n",listcount);
 			printf("Enter key value to be inserted in the newly created list-n:");
 			scanf("%d",&elem);
@@ -110,6 +127,7 @@ int main(){
 			break;
 		case 9:
 			printf("FreePointer is %d.\n",freePointer);
+			printf("LISTSIZE is %d\n",LISTSIZE);
 			for(int i=0;i<SIZE;i++){
 				int j=i*3;
 				printf("%d :%d %d %d\n",j, memory[j],memory[j+1],memory[j+2]);
