@@ -106,8 +106,13 @@ int main(){
 			break;
 		case 6:
 			for(int i=0;i<listcount;i++){
-				printf("Elements of list %d (of size %d) are:\n",i+1,count(listarray[i]));
-				printList(listarray[i]);
+				if(count(listarray[i])==0){
+					printf("List number %d is empty!\n",i+1);
+				}
+				else{
+					printf("Elements of list %d (of size %d) are:\n",i+1,count(listarray[i]));
+					printList(listarray[i]);
+				}
 			}
 			break;
 		case 7:
