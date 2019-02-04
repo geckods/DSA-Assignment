@@ -1,4 +1,4 @@
-#include <../include/stack.h>
+#include <stack.h>
 
 int freePop(){
 	int curr = freePointer;

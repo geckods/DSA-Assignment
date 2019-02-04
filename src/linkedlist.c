@@ -1,4 +1,4 @@
-#include "../include/linkedlist.h"
+#include "linkedlist.h"
 
 int allocateObject(int key,int prev,int next){
 	int loc = freePop();
