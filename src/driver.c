@@ -26,6 +26,8 @@ int main(){
 			status = insertSorted(listarray[listcount-1],elem);
 			if(status==NIL){
 				printf("FAILURE: MEMORY NOT AVAILABLE\n");
+				printf("Deleting List.");
+				listcount--;
 			}
 			else{
 				printf("SUCCESS\n");
@@ -35,7 +37,7 @@ int main(){
 		case 2:
 			printf("List you want to insert in(ONE INDEXED):");
 			scanf("%d",&listno);
-			if(listno>listcount){
+			if(listno>listcount||listno<1){
 				printf("Invalid list number! Returning to main menu.\n");
 				break;
 			}
@@ -52,7 +54,7 @@ int main(){
 		case 3:
 			printf("List you want to delete from(ONE INDEXED):");
 			scanf("%d",&listno);
-			if(listno>listcount){
+			if(listno>listcount||listno<1){
 				printf("Invalid list number! Returning to main menu.\n");
 				break;
 			}
@@ -76,7 +78,7 @@ int main(){
 		case 5:	
 			printf("Enter the list number:(ONE INDEXED):");
 			scanf("%d",&listno);
-			if(listno>listcount){
+			if(listno>listcount||listno<1){
 				printf("Invalid list number! Returning to main menu.\n");
 				break;
 			}
