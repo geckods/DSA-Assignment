@@ -14,6 +14,7 @@ int freePop(){
 		}
 
 		SIZE*=2;
+		free(memory);
 		memory = newmem;
 
 		for(int i=SIZE-1;i>=SIZE/2;i--){
