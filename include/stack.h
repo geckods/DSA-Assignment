@@ -2,9 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
 #define SIZE 10
 
 int memory[SIZE*3];
+*/
+int SIZE;
+int *memory;
 
 #define NIL -1
 

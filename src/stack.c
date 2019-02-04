@@ -1,8 +1,32 @@
 #include <stack.h>
 
 int freePop(){
+
+	if (freePointer==NIL){//double the size of memory 
+		//return NIL;
+		int j;
+		int *newmem = (int*)malloc(sizeof(int)*SIZE*2*3);
+		for(int i=0;i<SIZE;i++){
+			j = i*3;
+			for(int a=0;a<3;a++){
+				newmem[j+a]=memory[j+a];
+			}
+		}
+
+		SIZE*=2;
+		memory = newmem;
+
+		for(int i=SIZE-1;i>=SIZE/2;i--){
+			freePush(i*3);
+		}
+
+//		return (SIZE-1)*3;
+//		freePointer
+//		return freePointer;
+		
+	}
+
 	int curr = freePointer;
-	if (freePointer==NIL) return NIL;
 	freePointer = memory[curr+1];
 	return curr;
 }
@@ -15,6 +39,8 @@ void freePush(int loc){
 }
 
 void initializeStack(){
+	SIZE=10;
+	memory = (int*)malloc(SIZE*3*sizeof(int));
 	freePointer = NIL;
 	for(int i=SIZE-1;i>=0;i--){
 		freePush(i*3);
